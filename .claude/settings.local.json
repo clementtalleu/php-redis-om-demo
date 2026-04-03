@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(curl:*)",
+      "Bash(rm -f /Users/clement/Documents/works/symfony_redis_demo/docker-compose.yml)",
+      "Bash(rm -rf /Users/clement/Documents/works/symfony_redis_demo/docker)"
+    ]
+  }
+}

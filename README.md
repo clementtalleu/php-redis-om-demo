@@ -1,0 +1,85 @@
+# Symfony Redis OM Demo
+
+Projet de démonstration pour la librairie [php-redis-om](https://github.com/talleu/php-redis-om), un Object Mapper Redis pour PHP.
+
+## Stack technique
+
+- **PHP 8.4** (FrankenPHP)
+- **Symfony 7.4**
+- **Redis Stack** (Redis + RediSearch + RedisJSON)
+- **php-redis-om** (talleu/php-redis-om)
+
+## Installation
+
+```bash
+docker compose up -d --build
+```
+
+- App : https://localhost (certificat auto-signé)
+- RedisInsight : http://localhost:8001
+
+## TODO
+
+### Setup initial
+
+- [ ] Installer `talleu/php-redis-om` via Composer
+- [ ] Installer Twig (`symfony/twig-bundle`)
+- [ ] Installer le formulaire Symfony (`symfony/form`, `symfony/validator`)
+- [ ] Enregistrer le bundle dans `config/bundles.php` : `Talleu\RedisOm\Bundle\TalleuRedisOmBundle::class => ['all' => true]`
+- [ ] Configurer la connexion Redis (env `REDIS_URL`)
+
+### Entités Redis
+
+- [ ] Créer une entité `Book` (id, title, author, description, publishedAt, price)
+- [ ] Créer une entité `User` (id, name, email, age, createdAt)
+- [ ] Créer une entité `Product` (id, name, category, price, stock, createdAt)
+- [ ] Vérifier le mapping avec les attributs `#[RedisOm\Entity]`, `#[RedisOm\Id]`, `#[RedisOm\Property]`
+- [ ] Indexer les champs pertinents pour la recherche (`index: true`)
+- [ ] Lancer la migration : `bin/console redis-om:migrate`
+
+### Formulaires & Controllers
+
+- [ ] Créer un `BookController` avec CRUD complet (list, create, show, edit, delete)
+- [ ] Créer un `UserController` avec CRUD complet
+- [ ] Créer un `ProductController` avec CRUD complet
+- [ ] Créer les `FormType` associés (BookType, UserType, ProductType)
+- [ ] Gérer la validation des formulaires
+
+### Templates & UI
+
+- [ ] Créer un layout de base (`base.html.twig`) avec navigation
+- [ ] Templates de listing pour chaque entité
+- [ ] Templates de formulaire (create/edit)
+- [ ] Template de détail (show)
+- [ ] Messages flash pour les actions (create, update, delete)
+
+### Fonctionnalités de recherche
+
+- [ ] Implémenter `findAll()` pour chaque entité
+- [ ] Implémenter `findBy()` avec critères de recherche
+- [ ] Implémenter `findOneBy()` 
+- [ ] Ajouter un formulaire de recherche/filtre sur les listings
+- [ ] Tester le tri (`orderBy`) sur les collections
+
+### Fonctionnalités avancées
+
+- [ ] Tester le support RedisJSON (stocker des objets imbriqués)
+- [ ] Tester l'auto-expiration (TTL sur les entités)
+- [ ] Tester les types avancés (DateTimeImmutable, arrays, nested objects)
+- [ ] Créer une page dashboard avec des stats (nombre d'objets par entité)
+
+### Tests & Validation
+
+- [ ] Vérifier que les objets sont bien persistés dans Redis
+- [ ] Vérifier la recherche par critères
+- [ ] Vérifier le tri et la pagination
+- [ ] Vérifier la suppression
+- [ ] Vérifier via RedisInsight que les données sont correctes
+
+### Préparation V1
+
+- [ ] Documenter les fonctionnalités testées et leur statut
+- [ ] Identifier les éventuels bugs ou limitations
+- [ ] Mettre à jour `php-redis-om` vers la V1 quand disponible
+- [ ] Relancer les tests pour vérifier la rétrocompatibilité
+- [ ] Documenter les breaking changes éventuels
