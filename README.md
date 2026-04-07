@@ -1,6 +1,6 @@
 # Symfony Redis OM Demo
 
-Projet de démonstration pour la librairie [php-redis-om](https://github.com/talleu/php-redis-om), un Object Mapper Redis pour PHP.
+Projet de démonstration pour la librairie [php-redis-om](https://github.com/clementtalleu/php-redis-om), un Object Mapper Redis pour PHP.
 
 ## Stack technique
 
