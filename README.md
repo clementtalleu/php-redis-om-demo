@@ -26,7 +26,7 @@ docker compose up -d --build
 - [X] Installer Twig (`symfony/twig-bundle`)
 - [X] Installer le formulaire Symfony (`symfony/form`, `symfony/validator`)
 - [X] Enregistrer le bundle dans `config/bundles.php` : `Talleu\RedisOm\Bundle\TalleuRedisOmBundle::class => ['all' => true]`
-- [ ] Configurer la connexion Redis (env `REDIS_URL`)
+- [X] Configurer la connexion Redis (env `REDIS_URL`)
 
 ### Entités Redis
 
