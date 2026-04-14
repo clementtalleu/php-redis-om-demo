@@ -22,16 +22,16 @@ class Book{
     #[RedisOm\Property]
     public string $description;
 
-    #[RedisOm\Property]
+    #[RedisOm\Property(index: true)]
     public bool $enabled;
 
     #[RedisOm\Property(index: true)]
-    public Category $cateory;
+    public Category $cateogry;
 
-    #[RedisOm\Property]
+    #[RedisOm\Property(index: true)]
     public float $price;
 
-    #[RedisOm\Property]
+    #[RedisOm\Property(index: true)]
     public Date $publishedAt;
 
 }

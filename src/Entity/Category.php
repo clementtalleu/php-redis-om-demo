@@ -9,6 +9,6 @@ class Category{
     #[RedisOm\Property]
     public int $id;
 
-    #[RedisOm\Property(index: true)]
+    #[RedisOm\Property]
     public string $category;
 }
