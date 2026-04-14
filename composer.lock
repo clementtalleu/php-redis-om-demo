@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9fb4479c02537ee2217706a1faa4f46e",
+    "content-hash": "2d4ceb18d30a4d705b8f8b1beccfcef4",
     "packages": [
         {
             "name": "psr/cache",
@@ -2528,6 +2528,65 @@
                 }
             ],
             "time": "2026-03-24T13:12:05+00:00"
+        },
+        {
+            "name": "talleu/php-redis-om",
+            "version": "v0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/clementtalleu/php-redis-om.git",
+                "reference": "60a7ec9a141f2347cf3c4a5be68b0fc2b5bd5554"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/clementtalleu/php-redis-om/zipball/60a7ec9a141f2347cf3c4a5be68b0fc2b5bd5554",
+                "reference": "60a7ec9a141f2347cf3c4a5be68b0fc2b5bd5554",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.2"
+            },
+            "require-dev": {
+                "api-platform/core": "^4.1",
+                "friendsofphp/php-cs-fixer": "^3.75",
+                "phpstan/phpstan": "^1.12",
+                "phpunit/phpunit": "^11.0",
+                "symfony/browser-kit": "^7.2",
+                "symfony/framework-bundle": "^7.2",
+                "symfony/http-client": "^7.2",
+                "symfony/var-dumper": "^7.0",
+                "symfony/yaml": "^7.2"
+            },
+            "suggest": {
+                "ext-redis": "To use the php extension for Redis (phpredis)",
+                "predis/predis": "To use Predis as a Redis PHP client"
+            },
+            "bin": [
+                "bin/redisMigration"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Talleu\\RedisOm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Clément Talleu",
+                    "email": "clement.talleu@gmail.com"
+                }
+            ],
+            "description": "A PHP object mapper library for Redis",
+            "support": {
+                "issues": "https://github.com/clementtalleu/php-redis-om/issues",
+                "source": "https://github.com/clementtalleu/php-redis-om/tree/v0.6.0"
+            },
+            "time": "2026-03-30T11:22:21+00:00"
         }
     ],
     "packages-dev": [],

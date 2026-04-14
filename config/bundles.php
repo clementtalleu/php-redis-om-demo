@@ -2,4 +2,5 @@
 
 return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+    Talleu\RedisOm\Bundle\TalleuRedisOmBundle::class => ['all' => true],
 ];
