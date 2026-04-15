@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Talleu\RedisOm\Om\Mapping as RedisOm;
 
 
@@ -11,7 +10,7 @@ class Book{
 
     #[RedisOm\Id]
     #[RedisOm\Property]
-    public int $id;
+    public ?int $id = null;
 
     #[RedisOm\Property(index: true)]
     public string $title;
@@ -32,6 +31,6 @@ class Book{
     public float $price;
 
     #[RedisOm\Property(index: true)]
-    public Assert\Date $publishedAt;
+    public \DateTimeImmutable $publishedAt;
 
 }

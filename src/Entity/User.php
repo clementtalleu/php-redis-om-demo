@@ -9,7 +9,7 @@ class User{
 
     #[RedisOm\Id]
     #[RedisOm\Property]
-    public int $id;
+    public ?int $id = null;
 
     #[RedisOm\Property(index: true)]
     public string $name;

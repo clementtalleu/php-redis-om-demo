@@ -40,7 +40,7 @@ class BookAdminController extends AbstractController
     }
 
 
-    #[Route('/books/{id}', name: 'admin_book_edit', methods: ['GET'])]
+    #[Route('/books/edit/{id}', name: 'admin_book_edit', methods: ['GET'])]
     public function edit(Request $request, RedisObjectManagerInterface $om, Book $book) : Response{
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
