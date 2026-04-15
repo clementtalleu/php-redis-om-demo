@@ -57,7 +57,7 @@ docker compose up -d --build
 - [X] Créer un layout de base (`base.html.twig`) avec navigation
 - [ ] Templates de listing pour chaque entité
 - [ ] Templates de formulaire (create/edit)
-- [ ] Template de détail (show)
+- [X] Template de détail (show)
 - [ ] Messages flash pour les actions (create, update, delete)
 
 ### Fonctionnalités de recherche

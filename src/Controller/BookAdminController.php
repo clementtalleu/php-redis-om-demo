@@ -36,7 +36,7 @@ class BookAdminController extends AbstractController
             $this->addFlash('success', 'Livre créé !');
             return $this->redirectToRoute('admin_book_index');
         }
-        return $this->render('admin/book/new.html.twig', ['$form' => $form->createView()]);
+        return $this->render('admin/book/new.html.twig', ['form' => $form->createView()]);
     }
 
 

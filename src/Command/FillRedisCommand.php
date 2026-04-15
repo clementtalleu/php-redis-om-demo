@@ -26,11 +26,9 @@ class FillRedisCommand extends Command
 
         // 1. Créer des Catégories
         $categories = [];
-        $idxCat = 0;
         $catNom = ['Science-Fiction', 'Développement Web', 'Philosophie'];
         foreach ($catNom as $title) {
             $cat = new Category();
-            $cat->id=$idxCat++;
             $cat->category = $title;
             $this->om->persist($cat);
             $categories[] = $cat;
@@ -39,11 +37,9 @@ class FillRedisCommand extends Command
 
         // 2. Créer des Utilisateurs
         $users = [];
-        $idxUser = 0;
         $names = ['Alice', 'Bob', 'Charlie'];
         foreach ($names as $name) {
             $user = new User();
-            $user->id=$idxUser++;
             $user->name = $name;
             $user->email = strtolower($name) . "@example.com";
             $user->age = rand(20, 50);
@@ -59,10 +55,9 @@ class FillRedisCommand extends Command
             ['Le Robot de l\'Aube', 'Chef d\'oeuvre de l\'asimov', 15.50],
             ['Ainsi parlait Zarathoustra', 'Classique', 12.00],
         ];
-        $idxBook = 0;
+
         foreach ($bookData as $index => $data   ) {
             $book = new Book();
-            $book->id=$idxBook++;
             $book->title = $data[0];
             $book->description = $data[1];
             $book->price = $data[2];
@@ -70,8 +65,14 @@ class FillRedisCommand extends Command
             $book->publishedAt = new \DateTimeImmutable();
 
             // "Relations" manuelles via les IDs
-            $book->author = $users[array_rand($users)];
-            $book->category = $categories[array_rand($categories)];
+            //$book->author = $users[array_rand($users)];
+            //$book->category = $categories[array_rand($categories)];
+
+            $randomUser = $users[array_rand($users)];
+            $book->authorId = $randomUser->id;
+
+            $randomCat = $categories[array_rand($categories)];
+            $book->categoryId = $randomCat->id;
 
             $this->om->persist($book);
         }

@@ -23,19 +23,17 @@ class BookType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre',
             ])
-            ->add('author', ChoiceType::class, [
+            ->add('authorId', ChoiceType::class, [ // On mappe vers authorId
                 'choices' => (array) $options['authors'],
-                'choice_label' => function(User $user) {
-                    return $user->name;
-                },
-                'choice_value' => 'id',
+                'choice_label' => fn(User $user) => $user->name,
+                'choice_value' => 'id', // C'est l'ID de l'user qui sera stocké dans Book
                 'label' => 'Auteur',
             ])
-            ->add('category', ChoiceType::class, [
+            ->add('categoryId', ChoiceType::class, [ // On mappe vers categoryId
                 'choices' => (array) $options['categories'],
-                'choice_label' => function(Category $category) {
-                    return $category->category;
-                }
+                'choice_label' => fn(Category $category) => $category->category,
+                'choice_value' => 'id',
+                'label' => 'Catégorie'
             ])
             ->add('price', NumberType::class)
             ->add('description', TextareaType::class)
