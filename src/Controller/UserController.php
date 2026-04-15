@@ -18,7 +18,7 @@ class UserController extends AbstractController{
     }
 
     #[Route('/user/new', name: 'admin_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, RedisObjectManager $om){
+    public function new(Request $request, RedisObjectManager $om) : Response{
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -32,7 +32,7 @@ class UserController extends AbstractController{
         return $this->render('admin/user/new.html.twig', [$form, $form->createView()]);
     }
 
-    public function edit(Request $request, RedisObjectManager $om, User $user){
+    public function edit(Request $request, RedisObjectManager $om, User $user) : Response{
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 

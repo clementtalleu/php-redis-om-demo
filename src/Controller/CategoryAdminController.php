@@ -17,7 +17,7 @@ class CategoryAdminController extends AbstractController{
     }
 
     #[Route('/category/new', name: 'admin_category_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, RedisObjectManager $om){
+    public function new(Request $request, RedisObjectManager $om) : Response{
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
@@ -33,7 +33,7 @@ class CategoryAdminController extends AbstractController{
 
 
     #[Route('/category/{id}', name: 'admin_category_edit', methods: ['GET'])]
-    public function edit(Request $request, RedisObjectManager $om, Category $category){
+    public function edit(Request $request, RedisObjectManager $om, Category $category) : Response{
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 

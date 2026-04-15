@@ -150,5 +150,8 @@
             "version": "0.3",
             "ref": "7bb2ce82d2d034e3b8acc5592419450ddf4f9c05"
         }
+    },
+    "twig/extra-bundle": {
+        "version": "v3.24.0"
     }
 }

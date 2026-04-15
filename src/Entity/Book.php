@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints as Assert;
 use Talleu\RedisOm\Om\Mapping as RedisOm;
 
 
@@ -32,6 +32,6 @@ class Book{
     public float $price;
 
     #[RedisOm\Property(index: true)]
-    public Date $publishedAt;
+    public string $publishedAt;
 
 }
