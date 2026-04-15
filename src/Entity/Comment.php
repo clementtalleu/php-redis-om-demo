@@ -21,5 +21,5 @@ class Comment{
     public string $content;
 
     #[RedisOm\Property]
-    public Date $createdAt;
+    public \DateTimeImmutable $createdAt;
 }

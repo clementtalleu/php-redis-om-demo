@@ -16,7 +16,7 @@ class Book{
     public string $title;
 
     #[RedisOm\Property(index: true)]
-    public string $authorId;
+    public User $author;
 
     #[RedisOm\Property]
     public string $description;
@@ -25,7 +25,7 @@ class Book{
     public bool $enabled;
 
     #[RedisOm\Property(index: true)]
-    public string $categoryId;
+    public Category $category;
 
     #[RedisOm\Property(index: true)]
     public float $price;

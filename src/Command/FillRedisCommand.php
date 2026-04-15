@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Book;
 use App\Entity\User;
 use App\Entity\Category;
+use App\Entity\Comment; // Ne pas oublier l'import !
 use Talleu\RedisOm\Om\RedisObjectManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -24,62 +25,50 @@ class FillRedisCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // 1. Créer des Catégories
-        $categories = [];
-        $catNom = ['Science-Fiction', 'Développement Web', 'Philosophie'];
-        foreach ($catNom as $title) {
-            $cat = new Category();
-            $cat->category = $title;
-            $this->om->persist($cat);
-            $categories[] = $cat;
-        }
+        // Création d'une catégorie
+        $category = new Category();
+        $category->category='Science-Fiction';
+        $this->om->persist($category);
+
+        // Création d'un utilisateur (Auteur)
+        $user = new User();
+        $user->name='Isaac Asimov';
+        $user->email='isaac@example.com';
+        $user->age=72;
+        $user->createdAt=new \DateTimeImmutable();
+        $this->om->persist($user);
+
+        // Création d'un second utilisateur (Lecteur)
+        $reader = new User();
+        $reader->name='Jean Dupont';
+        $reader->email='jean@example.com';
+        $reader->age=30;
+        $reader->createdAt=new \DateTimeImmutable();
+        $this->om->persist($reader);
+
+        // Création du livre
+        $book = new Book();
+        $book->title='Fondation';
+        $book->author=$user;
+        $book->category=$category;
+        $book->enabled=true;
+        $book->description='Un chef-d\'œuvre de la SF sur la chute d\'un empire galactique.';
+        $book->price=19.99;
+        $book->publishedAt=new \DateTimeImmutable('1951-06-01');
+        $this->om->persist($book);
+
+        // Création d'un commentaire
+        $comment = new Comment();
+        $comment->author=($reader);
+        $comment->book=($book);
+        $comment->content=('Incroyable vision du futur, à lire absolument !');
+        $comment->createdAt=(new \DateTimeImmutable());
+        $this->om->persist($comment);
+
+        // Envoi final vers Redis
         $this->om->flush();
 
-        // 2. Créer des Utilisateurs
-        $users = [];
-        $names = ['Alice', 'Bob', 'Charlie'];
-        foreach ($names as $name) {
-            $user = new User();
-            $user->name = $name;
-            $user->email = strtolower($name) . "@example.com";
-            $user->age = rand(20, 50);
-            $this->om->persist($user);
-            $users[] = $user;
-        }
-        $this->om->flush();
-
-
-        // 3. Créer des Livres
-        $bookData = [
-            ['Symfony & Redis', 'Un guide complet', 29.99],
-            ['Le Robot de l\'Aube', 'Chef d\'oeuvre de l\'asimov', 15.50],
-            ['Ainsi parlait Zarathoustra', 'Classique', 12.00],
-        ];
-
-        foreach ($bookData as $index => $data   ) {
-            $book = new Book();
-            $book->title = $data[0];
-            $book->description = $data[1];
-            $book->price = $data[2];
-            $book->enabled = true;
-            $book->publishedAt = new \DateTimeImmutable();
-
-            // "Relations" manuelles via les IDs
-            //$book->author = $users[array_rand($users)];
-            //$book->category = $categories[array_rand($categories)];
-
-            $randomUser = $users[array_rand($users)];
-            $book->authorId = $randomUser->id;
-
-            $randomCat = $categories[array_rand($categories)];
-            $book->categoryId = $randomCat->id;
-
-            $this->om->persist($book);
-        }
-
-        $this->om->flush();
-
-        $io->success('Données insérées dans Redis avec succès !');
+        $io->success('Les données de test ont été chargées dans Redis !');
 
         return Command::SUCCESS;
     }
