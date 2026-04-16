@@ -12,13 +12,13 @@ class User{
     public ?int $id = null;
 
     #[RedisOm\Property(index: true)]
-    public string $name;
+    public string $name ='';
 
     #[RedisOm\Property(index: true)]
-    public string $email;
+    public string $email='';
 
     #[RedisOm\Property]
-    public int $age;
+    public int $age=0;
 
     #[RedisOm\Property]
     public \DateTimeImmutable $createdAt;

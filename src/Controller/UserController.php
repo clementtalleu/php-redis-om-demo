@@ -20,11 +20,12 @@ class UserController extends AbstractController{
 
     #[Route('/user/new', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, RedisObjectManagerInterface $om) : Response{
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        //$user = new User();
+        $form = $this->createForm(UserType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $user = $form->getData();
             $om->persist($user);
             $om->flush();
             $this->addFlash('success', 'User créé !');
