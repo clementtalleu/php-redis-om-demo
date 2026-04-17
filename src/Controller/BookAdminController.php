@@ -74,8 +74,17 @@ class BookAdminController extends AbstractController
     }
 
     #[Route('/books/{id}', name: 'admin_book_show', methods: ['GET'])]
-    public function show(Book $book): Response
+    public function show(int $id, RedisObjectHandler $objectHandler): Response
     {
-        return $this->render('main/show.html.twig', ['book' => $book]);
+        // On récupère le livre par son ID via le gestionnaire Redis OM
+        $book = $objectHandler->getRepository(Book::class)->find($id);
+
+        if (!$book) {
+            throw $this->createNotFoundException('Livre non trouvé');
+        }
+
+        return $this->render('main/show.html.twig', [
+            'book' => $book
+        ]);
     }
 }

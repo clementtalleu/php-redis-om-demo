@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a202f748fdd3f0199a2b724465a4c9f",
+    "content-hash": "3a0f548d0ec00c98f8486f515f4ba84f",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -3177,7 +3177,7 @@
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
@@ -3235,7 +3235,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -3259,7 +3259,7 @@
         },
         {
             "name": "symfony/polyfill-intl-icu",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-icu.git",
@@ -3323,7 +3323,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-icu/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-intl-icu/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -3347,7 +3347,7 @@
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
@@ -3408,7 +3408,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -3432,7 +3432,7 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -3493,7 +3493,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -3517,7 +3517,7 @@
         },
         {
             "name": "symfony/polyfill-php83",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php83.git",
@@ -3573,7 +3573,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php83/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-php83/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -3597,7 +3597,7 @@
         },
         {
             "name": "symfony/polyfill-php84",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php84.git",
@@ -3653,7 +3653,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php84/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-php84/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -3677,7 +3677,7 @@
         },
         {
             "name": "symfony/polyfill-php85",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php85.git",
@@ -3733,7 +3733,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php85/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-php85/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -5058,16 +5058,16 @@
         },
         {
             "name": "talleu/php-redis-om",
-            "version": "v0.6.0",
+            "version": "v0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clementtalleu/php-redis-om.git",
-                "reference": "60a7ec9a141f2347cf3c4a5be68b0fc2b5bd5554"
+                "reference": "42b04e165a11e9fa2f54a7eb3dfae1cba66469ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clementtalleu/php-redis-om/zipball/60a7ec9a141f2347cf3c4a5be68b0fc2b5bd5554",
-                "reference": "60a7ec9a141f2347cf3c4a5be68b0fc2b5bd5554",
+                "url": "https://api.github.com/repos/clementtalleu/php-redis-om/zipball/42b04e165a11e9fa2f54a7eb3dfae1cba66469ae",
+                "reference": "42b04e165a11e9fa2f54a7eb3dfae1cba66469ae",
                 "shasum": ""
             },
             "require": {
@@ -5079,6 +5079,7 @@
                 "friendsofphp/php-cs-fixer": "^3.75",
                 "phpstan/phpstan": "^1.12",
                 "phpunit/phpunit": "^11.0",
+                "predis/predis": "^2.0 || ^3.0",
                 "symfony/browser-kit": "^7.2",
                 "symfony/framework-bundle": "^7.2",
                 "symfony/http-client": "^7.2",
@@ -5111,9 +5112,9 @@
             "description": "A PHP object mapper library for Redis",
             "support": {
                 "issues": "https://github.com/clementtalleu/php-redis-om/issues",
-                "source": "https://github.com/clementtalleu/php-redis-om/tree/v0.6.0"
+                "source": "https://github.com/clementtalleu/php-redis-om/tree/v0.7.0"
             },
-            "time": "2026-03-30T11:22:21+00:00"
+            "time": "2026-04-17T09:37:49+00:00"
         },
         {
             "name": "twig/extra-bundle",

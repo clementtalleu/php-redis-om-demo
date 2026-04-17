@@ -11,7 +11,7 @@
         "doctrine/doctrine-bundle": "^3.2.2",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.6.3",
-        "php-cs-fixer/shim": "^3.95",
+        "php-cs-fixer/shim": "^3.95.1",
         "predis/predis": "^3.4.2",
         "symfony/console": "7.4.*",
         "symfony/dotenv": "7.4.*",
@@ -22,9 +22,9 @@
         "symfony/twig-bundle": "7.4.*",
         "symfony/validator": "7.4.*",
         "symfony/yaml": "7.4.*",
-        "talleu/php-redis-om": "^0.6.0",
-        "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "talleu/php-redis-om": "^0.7.0",
+        "twig/extra-bundle": "^2.12|^3.24",
+        "twig/twig": "^2.12|^3.24"
     },
     "config": {
         "allow-plugins": {
