@@ -45,7 +45,7 @@ docker compose up -d --build
 - [X] Créer un `CategoryController` avec CRUD complet
 - [X] Créer les `FormType` associés (BookType, UserType, CategoryType)
 - [X] Toute la partie CRUD préfixée par /admin
-- [ ] Créer une page "vue des ouvrages" qui affiche les livres activés
+- [X] Créer une page "vue des ouvrages" qui affiche les livres activés
 - [ ] Créer des filters
 - [X] Faire la page "détail d'un ouvrage"
 - [ ] Afficher les commentaires
