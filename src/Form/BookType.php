@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use \Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BookType extends AbstractType
 {
@@ -25,13 +25,15 @@ class BookType extends AbstractType
             ])
             ->add('author', ChoiceType::class, [
                 'choices' => (array) $options['authors'],
-                'choice_label' => fn(User $user) => $user->name,
+                'choice_value' => fn (?User $user) => $user ? $user->id : '',
+                'choice_label' => fn (User $user) => $user->name,
                 'label' => 'Auteur',
             ])
             ->add('category', ChoiceType::class, [
                 'choices' => (array) $options['categories'],
-                'choice_label' => fn(Category $category) => $category->category,
-                'label' => 'Catégorie'
+                'choice_value' => fn (?Category $cat) => $cat ? $cat->id : '',
+                'choice_label' => fn (Category $cat) => $cat->category,
+                'label' => 'Catégorie',
             ])
             ->add('price', NumberType::class)
             ->add('description', TextareaType::class)
@@ -48,5 +50,8 @@ class BookType extends AbstractType
             'authors' => [],
             'categories' => [],
         ]);
+
+        $resolver->setAllowedTypes('authors', 'array');
+        $resolver->setAllowedTypes('categories', 'array');
     }
 }

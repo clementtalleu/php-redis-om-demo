@@ -1,13 +1,14 @@
 <?php
+
 namespace App\Entity;
+
 use Talleu\RedisOm\Om\Mapping as RedisOm;
-use Talleu\RedisOm\Om\RedisFormat;
 
 #[RedisOm\Entity]
-class Category{
-
+class Category
+{
     #[RedisOm\Id]
-    #[RedisOm\Property]
+    #[RedisOm\Property(index: true)]
     public ?int $id = null;
 
     #[RedisOm\Property]

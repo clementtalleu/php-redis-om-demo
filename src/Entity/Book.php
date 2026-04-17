@@ -4,12 +4,11 @@ namespace App\Entity;
 
 use Talleu\RedisOm\Om\Mapping as RedisOm;
 
-
 #[RedisOm\Entity]
-class Book{
-
+class Book
+{
     #[RedisOm\Id]
-    #[RedisOm\Property]
+    #[RedisOm\Property(index: true)]
     public ?int $id = null;
 
     #[RedisOm\Property(index: true)]
@@ -32,5 +31,4 @@ class Book{
 
     #[RedisOm\Property(index: true)]
     public \DateTimeImmutable $publishedAt;
-
 }

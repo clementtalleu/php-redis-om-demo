@@ -7,7 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType{
+class UserType extends AbstractType
+{
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -15,9 +16,11 @@ class UserType extends AbstractType{
             ->add('name')
             ->add('age');
     }
-    public function configureOptions(OptionsResolver $resolver){
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
         $resolver->setDefaults([
-            'data_class' => User::class ,
+            'data_class' => User::class,
         ]);
     }
 }

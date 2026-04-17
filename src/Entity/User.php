@@ -1,28 +1,27 @@
 <?php
+
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints\Date;
 use Talleu\RedisOm\Om\Mapping as RedisOm;
 
 #[RedisOm\Entity]
-class User{
-
+class User
+{
     #[RedisOm\Id]
-    #[RedisOm\Property]
+    #[RedisOm\Property(index: true)]
     public ?int $id = null;
 
     #[RedisOm\Property(index: true)]
-    public string $name ='';
+    public string $name = '';
 
     #[RedisOm\Property(index: true)]
-    public string $email='';
+    public string $email = '';
 
     #[RedisOm\Property]
-    public int $age=0;
+    public int $age = 0;
 
     #[RedisOm\Property]
     public \DateTimeImmutable $createdAt;
-
 
     public function __construct()
     {

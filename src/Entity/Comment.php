@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints\Date;
 use Talleu\RedisOm\Om\Mapping as RedisOm;
 
 #[RedisOm\Entity]
-class Comment{
-
+class Comment
+{
     #[RedisOm\Id]
-    #[RedisOm\Property]
+    #[RedisOm\Property(index: true)]
     public ?int $id = null;
 
     #[RedisOm\Property(index: true)]
