@@ -22,13 +22,14 @@ class CommentController extends AbstractController
             throw $this->createNotFoundException('Livre non trouvé.');
         }
 
+        $comments = $om->getRepository(Comment::class)->findBy(['book' => $book->id]);
+
         $comment = new Comment();
         if (!$book instanceof Book) {
             throw $this->createNotFoundException('Livre non trouvé');
         }
         $comment->book = $book;
 
-        // ATTENTION : Vous devez passer les auteurs au formulaire ici aussi !
         $form = $this->createForm(CommentType::class, $comment, [
             'authors' => (array) $om->getRepository(User::class)->findBy([]),
         ]);
@@ -45,6 +46,7 @@ class CommentController extends AbstractController
 
         return $this->render('main/show.html.twig', [
             'book' => $book,
+            'comments' => $comments,
             'form' => $form->createView(),
         ]);
     }

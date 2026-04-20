@@ -79,7 +79,7 @@ class BookAdminController extends AbstractController
         ]);
     }
 
-    #[Route('/books/{id}', name: 'admin_book_delete', methods: ['POST', 'DELETE'])]
+    #[Route('/books/delete/{id}', name: 'admin_book_delete', methods: ['POST', 'DELETE'])]
     public function delete(string $id, Request $request, RedisObjectManagerInterface $om, Book $book): Response
     {
         $book = $om->getRepository(Book::class)->find($id);
