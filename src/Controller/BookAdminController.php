@@ -52,7 +52,7 @@ class BookAdminController extends AbstractController
         return $this->render('admin/book/new.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/books/edit/{id}', name: 'admin_book_edit', methods: ['GET'])]
+    #[Route('/books/edit/{id}', name: 'admin_book_edit', methods: ['GET', 'POST'])]
     public function edit(string $id, Request $request, RedisObjectManagerInterface $om, Book $book): Response
     {
         $book = $om->getRepository(Book::class)->find($id);
@@ -67,9 +67,10 @@ class BookAdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $om->persist($book);
             $om->flush();
 
-            return $this->redirectToRoute('admin_book_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_index_books', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/book/edit.html.twig', [

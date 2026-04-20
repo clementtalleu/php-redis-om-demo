@@ -39,6 +39,7 @@ class CommentController extends AbstractController
             $om->persist($comment);
             $om->flush();
             $this->addFlash('success', 'Commentaire créé !');
+
             return $this->redirectToRoute('admin_book_show', ['id' => $id]);
         }
 
