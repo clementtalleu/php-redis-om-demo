@@ -22,13 +22,14 @@ class CommentController extends AbstractController
             throw $this->createNotFoundException('Livre non trouvé.');
         }
 
-        $comments = $om->getRepository(Comment::class)->findBy(['book' => $book->id]);
-
         $comment = new Comment();
+
         if (!$book instanceof Book) {
             throw $this->createNotFoundException('Livre non trouvé');
         }
         $comment->book = $book;
+
+        $comments = $om->getRepository(Comment::class)->findBy(['book_id' => $book->id]);
 
         $form = $this->createForm(CommentType::class, $comment, [
             'authors' => (array) $om->getRepository(User::class)->findBy([]),

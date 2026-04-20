@@ -117,10 +117,10 @@
                 <div class="flex justify-between items-start mb-3">
                     <div class="flex items-center">
                         <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold mr-3">
-                            {{ comment.author|slice(0, 1)|upper }}
+                            {{ comment.author.name|slice(0, 1)|upper }}
                         </div>
                         <div>
-                            <span class="block font-bold text-gray-900">{{ comment.author }}</span>
+                            <span class="block font-bold text-gray-900">{{ comment.author.name }}</span>
                             <span class="text-xs text-gray-400">Le {{ comment.createdAt|date('d/m/Y à H:i') }}</span>
                         </div>
                     </div>

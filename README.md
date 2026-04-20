@@ -48,8 +48,8 @@ docker compose up -d --build
 - [X] Créer une page "vue des ouvrages" qui affiche les livres activés
 - [ ] Créer des filters
 - [X] Faire la page "détail d'un ouvrage"
-- [ ] Afficher les commentaires
-- [ ] Permettre de poster un nouveau commentaire
+- [X] Afficher les commentaires
+- [X] Permettre de poster un nouveau commentaire
 - [X] Gérer la validation des formulaires
 
 ### Templates & UI
@@ -58,7 +58,7 @@ docker compose up -d --build
 - [ ] Templates de listing pour chaque entité
 - [ ] Templates de formulaire (create/edit)
 - [X] Template de détail (show)
-- [ ] Messages flash pour les actions (create, update, delete)
+- [X] Messages flash pour les actions (create, update, delete)
 
 ### Fonctionnalités de recherche
 
