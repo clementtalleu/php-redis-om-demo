@@ -17,7 +17,7 @@ class UserController extends AbstractController
     {
         $users = $om->getRepository(User::class)->findAll();
 
-        return $this->render('user/index.html.twig', ['users' => $users]);
+        return $this->render('admin/user/user.html.twig', ['users' => $users]);
     }
 
     #[Route('/user/new', name: 'user_new', methods: ['GET', 'POST'])]
@@ -33,12 +33,13 @@ class UserController extends AbstractController
             $om->flush();
             $this->addFlash('success', 'User créé !');
 
-            return $this->redirectToRoute('admin_index_books');
+            return $this->redirectToRoute('user');
         }
 
         return $this->render('user/new.html.twig', ['form' => $form->createView()]);
     }
 
+    #[Route('/category/edit/{id}', name: 'user_edit', methods: ['POST', 'DELETE'])]
     public function edit(Request $request, RedisObjectManagerInterface $om, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -47,7 +48,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $om->flush();
 
-            return $this->redirectToRoute('admin_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('user', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/edit.html.twig', [
@@ -56,7 +57,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/category/delete/{id}', name: 'admin_book_delete', methods: ['POST', 'DELETE'])]
+    #[Route('/category/delete/{id}', name: 'user_delete', methods: ['POST', 'DELETE'])]
     public function delete(string $id, Request $request, RedisObjectManagerInterface $om, User $user): Response
     {
         $user = $om->getRepository(User::class)->find($id);
@@ -70,7 +71,7 @@ class UserController extends AbstractController
             $this->addFlash('error', 'L\'utilisateur n\'a pas pu être supprimer');
         }
 
-        return $this->redirectToRoute('admin_index_books', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('user', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/users/{id}', name: 'user_show', methods: ['GET'])]

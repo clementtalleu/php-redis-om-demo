@@ -63,9 +63,9 @@ docker compose up -d --build
 ### Fonctionnalités de recherche
 
 - [ ] Implémenter `findAll()` pour chaque entité
-- [ ] Implémenter `findBy()` avec critères de recherche
+- [X] Implémenter `findBy()` avec critères de recherche
 - [ ] Implémenter `findOneBy()` 
-- [ ] Ajouter un formulaire de recherche/filtre sur les listings
+- [X] Ajouter un formulaire de recherche/filtre sur lesw listings
 - [ ] Tester le tri (`orderBy`) sur les collections
 
 ### Fonctionnalités avancées
