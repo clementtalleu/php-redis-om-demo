@@ -39,25 +39,28 @@ class UserController extends AbstractController
         return $this->render('user/new.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/category/edit/{id}', name: 'user_edit', methods: ['POST', 'DELETE'])]
-    public function edit(Request $request, RedisObjectManagerInterface $om, User $user): Response
+    #[Route('/user/edit/{id}', name: 'user_edit', methods: ['POST', 'GET'])]
+    public function edit(string $id, Request $request, RedisObjectManagerInterface $om, User $user): Response
     {
+        $user = $om->getRepository(User::class)->find($id);
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $om->persist($user);
             $om->flush();
 
             return $this->redirectToRoute('user', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('admin/user/useredit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
     }
 
-    #[Route('/category/delete/{id}', name: 'user_delete', methods: ['POST', 'DELETE'])]
+    #[Route('/user/delete/{id}', name: 'user_delete', methods: ['POST', 'DELETE'])]
     public function delete(string $id, Request $request, RedisObjectManagerInterface $om, User $user): Response
     {
         $user = $om->getRepository(User::class)->find($id);

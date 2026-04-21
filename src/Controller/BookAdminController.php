@@ -20,13 +20,13 @@ class BookAdminController extends AbstractController
     #[Route('/admin/books', name: 'admin_index_books', methods: ['GET'])]
     public function index(Request $request, RedisObjectManagerInterface $om, BookRepository $repository): Response
     {
-        return $this->extracted($om, $request, $repository);
+        return $this->extracted($request, $repository, $om);
     }
 
     #[Route('/books', name: 'index_books', methods: ['GET'])]
     public function indexUser(Request $request, RedisObjectManagerInterface $om, BookRepository $repository): Response
     {
-        return $this->extracted($om, $request, $repository);
+        return $this->extracted($request, $repository, $om);
     }
 
     #[Route('admin/books/new', name: 'admin_book_new', methods: ['GET', 'POST'])]
@@ -109,7 +109,7 @@ class BookAdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/books', name: 'admin_index_books', methods: ['GET'])]
+
     public function extracted(Request $request, BookRepository $bookRepo, RedisObjectManagerInterface $om): Response
     {
         $filtre = new SearchData();
