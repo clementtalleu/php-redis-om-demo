@@ -40,7 +40,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/edit/{id}', name: 'user_edit', methods: ['POST', 'GET'])]
-    public function edit(string $id, Request $request, RedisObjectManagerInterface $om, User $user): Response
+    public function edit(string $id, Request $request, RedisObjectManagerInterface $om): Response
     {
         $user = $om->getRepository(User::class)->find($id);
 

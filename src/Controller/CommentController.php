@@ -14,6 +14,55 @@ use Talleu\RedisOm\Om\RedisObjectManagerInterface;
 
 class CommentController extends AbstractController
 {
+
+    #[Route('/comment', name: 'comment', methods: ['GET', 'POST'])]
+    public function index(RedisObjectManagerInterface $om): Response
+    {
+        $comment = $om->getRepository(Comment::class)->findAll();
+
+        return $this->render('admin/comment/comment.html.twig', ['comments' => $comment]);
+    }
+
+    #[Route('/comment/edit/{id}', name: 'comment_edit', methods: ['POST', 'GET'])]
+    public function edit(string $id, Request $request, RedisObjectManagerInterface $om, Comment $comment): Response
+    {
+        $comment = $om->getRepository(Comment::class)->find($id);
+
+        $form = $this->createForm(CommentType::class, $comment, [
+            'authors' => (array) $om->getRepository(User::class)->findBy([]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $om->persist($comment);
+            $om->flush();
+
+            return $this->redirectToRoute('comment', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/comment/commentedit.html.twig', [
+            'comment' => $comment,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/comment/delete/{id}', name: 'comment_delete', methods: ['POST', 'DELETE'])]
+    public function delete(string $id, Request $request, RedisObjectManagerInterface $om, Comment $comment): Response
+    {
+        $comment = $om->getRepository(Comment::class)->find($id);
+
+        if ($comment) {
+            $om->remove($comment);
+            $om->flush();
+
+            $this->addFlash('success', 'Le commentaire a été supprimé définitivement.');
+        } else {
+            $this->addFlash('error', 'Le commentaire n\'a pas pu être supprimer');
+        }
+
+        return $this->redirectToRoute('comment', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('books/{id}', name: 'admin_book_show', methods: ['GET', 'POST'])] // On réutilise le nom de route attendu
     public function show(string $id, Request $request, RedisObjectManagerInterface $om): Response
     {
