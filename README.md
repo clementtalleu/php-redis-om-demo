@@ -62,7 +62,7 @@ docker compose up -d --build
 
 ### Fonctionnalités de recherche
 
-- [ ] Implémenter `findAll()` pour chaque entité
+- [X] Implémenter `findAll()` pour chaque entité
 - [X] Implémenter `findBy()` avec critères de recherche
 - [ ] Implémenter `findOneBy()` 
 - [X] Ajouter un formulaire de recherche/filtre sur lesw listings
@@ -73,15 +73,15 @@ docker compose up -d --build
 - [ ] Tester le support RedisJSON (stocker des objets imbriqués)
 - [ ] Tester l'auto-expiration (TTL sur les entités)
 - [X] Tester les types avancés (DateTimeImmutable, arrays, nested objects)
-- [ ] Créer une page dashboard avec des stats (nombre d'objets par entité)
+- [X] Créer une page dashboard avec des stats (nombre d'objets par entité)
 
 ### Tests & Validation
 
-- [ ] Vérifier que les objets sont bien persistés dans Redis
-- [ ] Vérifier la recherche par critères
+- [X] Vérifier que les objets sont bien persistés dans Redis
+- [X] Vérifier la recherche par critères
 - [ ] Vérifier le tri et la pagination
-- [ ] Vérifier la suppression
-- [ ] Vérifier via RedisInsight que les données sont correctes
+- [X] Vérifier la suppression
+- [X] Vérifier via RedisInsight que les données sont correctes
 
 ### Préparation V1
 
