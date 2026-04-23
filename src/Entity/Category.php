@@ -6,7 +6,7 @@ use Talleu\RedisOm\Om\Mapping as RedisOm;
 use Talleu\RedisOm\Om\RedisFormat;
 
 #[RedisOm\Entity(
-    format : RedisFormat::JSON->value
+//    format : RedisFormat::JSON->value
 )]
 class Category
 {

@@ -29,7 +29,9 @@ class BookRepository
         if (null !== $search->category) {
             $criteria['category'] = $search->category;
         }
-
+        if ($search->unavailable) {
+            $criteria['enabled'] = false;
+        }
 
         if (!empty($criteria)) {
             $results = $this->repository->findBy($criteria);
