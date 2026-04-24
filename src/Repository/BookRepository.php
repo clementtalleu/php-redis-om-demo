@@ -33,12 +33,13 @@ class BookRepository
         }
 
         if (!empty($criteria)) {
-            $results = $this->repository->findBy($criteria, ['publishedAt' => 'ASC']);
+            $results = $this->repository->findBy($criteria, ['price' => 'ASC']);
         } else {
             $results = $this->repository->findAll();
         }
 
         $books = iterator_to_array($results);
+
 
         if (null !== $search->priceMin || null !== $search->priceMax) {
             $books = array_filter($books, function (Book $book) use ($search) {

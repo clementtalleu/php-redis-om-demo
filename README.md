@@ -2,6 +2,14 @@
 
 Projet de démonstration pour la librairie [php-redis-om](https://github.com/clementtalleu/php-redis-om), un Object Mapper Redis pour PHP.
 
+## ✨ Demo Features
+
+- **Full CRUD** : Management of Books, Users, and Categories
+- **Advanced Search** : Filters and sort data
+- **Nesting & Relations** : Handing complew object and relations via RedisJSON
+- **Admin Interface** : Complete back-office under /adùin using Symfony Forms
+- **Developer Experience** : Seamless integratrion with the RedisObjectManager
+
 ## Stack technique
 
 - **PHP 8.4** (FrankenPHP)
@@ -9,16 +17,45 @@ Projet de démonstration pour la librairie [php-redis-om](https://github.com/cle
 - **Redis Stack** (Redis + RediSearch + RedisJSON)
 - **php-redis-om** (talleu/php-redis-om)
 
-## Installation
+## Installation & Setup
+
+### 1. Spin up the infrastructure
+
+The demo uses docker to streamline the PHP and Redis Stack installation
 
 ```bash
 docker compose up -d --build
 ```
 
-- App : https://localhost (certificat auto-signé)
+### 2. Access the services
+
+- Web-App : https://localhost (certificat auto-signé)
 - RedisInsight : http://localhost:8001
 
-## TODO
+### 3. Library Initialization
+
+If you are starting fresh or updating the library : 
+
+```bash
+#If you are outside of the container
+
+# Install the development version
+docker compose exec php composer require talleu/php-redis-om:dev-main
+
+# Generate Redis indexes (Migration)
+docker compose exec php bin/console redis-om:migrate
+
+#----------------------------------------------------#
+
+# If you are inside of the container
+
+# Install the development version
+composer require talleu/php-redis-om:dev-main
+
+# Generate Redis indexes (Migration)
+bin/console redis-om:migrate
+```
+Depending on your configuration, use phpredis or Predis
 
 ### Setup initial
 
