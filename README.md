@@ -32,6 +32,10 @@ docker compose up -d --build
 - Web-App : https://localhost (certificat auto-signé)
 - RedisInsight : http://localhost:8001
 
+To access the demo : 
+
+- Demo : https://localhost/books
+
 ### 3. Library Initialization
 
 If you are starting fresh or updating the library : 
@@ -57,73 +61,86 @@ bin/console redis-om:migrate
 ```
 Depending on your configuration, use phpredis or Predis
 
-### Setup initial
+## How to Use the Demo
 
-- [X] Installer `talleu/php-redis-om` via Composer
-- [X] Installer Twig (`symfony/twig-bundle`)
-- [X] Installer le formulaire Symfony (`symfony/form`, `symfony/validator`)
-- [X] Enregistrer le bundle dans `config/bundles.php` : `Talleu\RedisOm\Bundle\TalleuRedisOmBundle::class => ['all' => true]`
-- [X] Configurer la connexion Redis (env `REDIS_URL`)
+### Entity Mapping
+Entities are located in src/Entity
 
-### Entités Redis
+```php
+#[RedisOm\Entity]
+class Book {
+    #[RedisOm\Id]
+    #[RedisOm\Property]
+    public int $id;
 
-- [X] Créer une entité `Book` (id, title, author (qui est un User), enabled, category, description, publishedAt, price)
-- [X] Créer une entité `Category` (id, title)
-- [X] Créer une entité `User` (id, name, email, age, createdAt)
-- [X] Créer une entité `Comment` (id, author, book, content, createdAt)
-- [X] Vérifier le mapping avec les attributs `#[RedisOm\Entity]`, `#[RedisOm\Id]`, `#[RedisOm\Property]`
-- [X] Indexer les champs pertinents pour la recherche (`index: true`)
-- [X] Lancer la migration : `bin/console redis-om:migrate`
+    #[RedisOm\Property(index: true)] // Enables searching/filtering on this field
+    public string $title;
 
-### Formulaires & Controllers
+    #[RedisOm\Property(index:true)]
+    public \DateTimeImmutable $publishedAt;
+}
+```
+### Using the Manager
 
-- [X] Créer un `BookController` avec CRUD complet (list, create, show, edit, delete)
-- [X] Créer un `UserController` avec CRUD complet
-- [X] Créer un `CategoryController` avec CRUD complet
-- [X] Créer les `FormType` associés (BookType, UserType, CategoryType)
-- [X] Toute la partie CRUD préfixée par /admin
-- [X] Créer une page "vue des ouvrages" qui affiche les livres activés
-- [X] Créer des filters
-- [X] Faire la page "détail d'un ouvrage"
-- [X] Afficher les commentaires
-- [X] Permettre de poster un nouveau commentaire
-- [X] Gérer la validation des formulaires
+In your controllers (src/Controller), the RedisObjectManagerInterface is injected to handle data via forms
 
-### Templates & UI
+```php
+public function create(RedisObjectManagerInterface $manager) {
+    $book = new Book();
+    $form = $this->createForm(BookType::class, $book);
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Prepare the object for Redis
+        $manager->persist($book);
+        
+        // Execute the commands (HMSET, JSON.SET, etc. depending on your mapping)
+        $manager->flush();
 
-- [X] Créer un layout de base (`base.html.twig`) avec navigation
-- [X] Templates de listing pour chaque entité
-- [X] Templates de formulaire (create/edit)
-- [X] Template de détail (show)
-- [X] Messages flash pour les actions (create, update, delete)
+        $this->addFlash('success', 'Book saved to Redis!');
+        return $this->redirectToRoute('app_book_index');
+    }
 
-### Fonctionnalités de recherche
+    return $this->render('admin/book/new.html.twig', [
+        'form' => $form,
+    ]);
+}
+```
+### Form Type
 
-- [X] Implémenter `findAll()` pour chaque entité
-- [X] Implémenter `findBy()` avec critères de recherche
-- [X] Implémenter `findOneBy()` 
-- [X] Ajouter un formulaire de recherche/filtre sur lesw listings
-- [X] Tester le tri (`orderBy`) sur les collections
+The library supports standard Symfony Form Types. Because the entities use standard PHP properties, no special configuration is required for the FormType.  
+They are used to create object in Redis.
 
-### Fonctionnalités avancées
+```php
+class BookType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('title', TextType::class)
+            ->add('description', TextareaType::class)
+            ->add('publishedAt', DateType::class, [
+                'widget' => 'single_text',
+                'input'  => 'datetime_immutable',
+            ])
+            ->add('price', NumberType::class);
+    }
+}
+```
 
-- [X] Tester le support RedisJSON (stocker des objets imbriqués)
-- [X] Tester l'auto-expiration (TTL sur les entités)
-- [X] Tester les types avancés (DateTimeImmutable, arrays, nested objects)
-- [X] Créer une page dashboard avec des stats (nombre d'objets par entité)
+### Retrieval and Filtering
 
-### Tests & Validation
+Use the Repository to fetch your data : 
 
-- [X] Vérifier que les objets sont bien persistés dans Redis
-- [X] Vérifier la recherche par critères
-- [X] Vérifier le tri et la pagination
-- [X] Vérifier la suppression
-- [X] Vérifier via RedisInsight que les données sont correctes
+```php
+$repository = $manager->getRepository(Book::class);
 
-### Préparation V1
+// Get everything
+$books = $repository->findAll();
 
-- [ ] Documenter les fonctionnalités testées et leur statut
-- [ ] Identifier les éventuels bugs ou limitations
-- [ ] Mettre à jour `php-redis-om` vers la V1 quand disponible
-- [ ] Relancer les tests pour vérifier la rétrocompatibilité
-- [ ] Documenter les breaking changes éventuels
+// Search with criteria and sorting
+$books = $repository->findBy(
+    ['author' => 'Jack London'], // criteria
+    ['publishedAt' => 'DESC'], // order by
+    10 // Limit
+);
+```
