@@ -39,23 +39,6 @@ class CategoryAdminController extends AbstractController
         return $this->render('admin/category/new.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/category/edit/{id}', name: 'category_edit', methods: ['GET'])]
-    public function edit(Request $request, RedisObjectManagerInterface $om, Category $category): Response
-    {
-        $form = $this->createForm(CategoryType::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $om->flush();
-
-            return $this->redirectToRoute('category', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('admin/category/categoryedit.html.twig', [
-            'category' => $category,
-            'form' => $form,
-        ]);
-    }
 
     #[Route('/category/delete/{id}', name: 'category_delete', methods: ['POST', 'DELETE'])]
     public function delete(string $id, RedisObjectManagerInterface $om): Response

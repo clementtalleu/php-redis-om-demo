@@ -39,6 +39,18 @@ class UserController extends AbstractController
         return $this->render('user/new.html.twig', ['form' => $form->createView()]);
     }
 
+    #[Route('/justine', name: 'user_justine', methods: ['GET', 'POST'])]
+    public function oneJustine(RedisObjectManagerInterface $om): Response{
+        $userRepo = $om->getRepository(User::class);
+        $user = $userRepo->findOneBy(['name' => 'Justine']);
+        if (!$user) {
+            throw $this->createNotFoundException('Aucun utilisateur nommé Justine trouvé.');
+        }
+        return $this->render('admin/user/justine.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
     #[Route('/user/edit/{id}', name: 'user_edit', methods: ['POST', 'GET'])]
     public function edit(string $id, Request $request, RedisObjectManagerInterface $om): Response
     {
@@ -75,11 +87,5 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/users/{id}', name: 'user_show', methods: ['GET'])]
-    public function show(User $user): Response
-    {
-        return $this->render('user/show.html.twig', ['user' => $user]);
     }
 }

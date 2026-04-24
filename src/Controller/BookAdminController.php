@@ -113,21 +113,36 @@ class BookAdminController extends AbstractController
     public function extracted(Request $request, BookRepository $bookRepo, RedisObjectManagerInterface $om): Response
     {
         $filtre = new SearchData();
-
-        $categories = $om->getRepository(Category::class)->findBy([]);
-        $author = $om->getRepository(User::class)->findBy([]);
+        $currentRoute = $request->attributes->get('_route');
 
         $form = $this->createForm(SearchType::class, $filtre, [
-            'categories' => $categories,
-            'authors' => $author,
+            'method' => 'GET',
+            'categories' => $om->getRepository(Category::class)->findBy([]),
+            'authors' => $om->getRepository(User::class)->findBy([]),
         ]);
         $form->handleRequest($request);
 
         $books = $bookRepo->findBySearch($filtre);
 
+        if ($currentRoute !== 'admin_index_books') {
+            $books = array_filter($books, fn($b) => $b->enabled === true);
+        }
+
+        $totalBook = count($books);
+        $limit = 8;
+        $totalPages = ceil($totalBook / $limit);
+        $currentPage = max(1, $request->query->getInt('page', 1));
+        $offset = ($currentPage - 1) * $limit;
+
+        $bookPage = array_slice($books, $offset, $limit);
+
         return $this->render('main/catalogue.html.twig', [
+            'bookpage' => $bookPage,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages,
             'books' => $books,
             'form' => $form->createView(),
+            'currentRoute' => $currentRoute,
         ]);
     }
 }

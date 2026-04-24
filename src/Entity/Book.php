@@ -34,4 +34,16 @@ class Book
 
     #[RedisOm\Property(index: true)]
     public \DateTimeImmutable $publishedAt;
+/*
+    #[RedisOm\Property(index: true)]
+    public ?int $publishedYear = null;
+
+    public function __construct(?\DateTimeImmutable $publishedAt = null)
+    {
+        if ($publishedAt) {
+            $this->publishedAt = $publishedAt;
+            $this->publishedYear = (int)$publishedAt->format('Y');
+        }
+    }*/
+
 }

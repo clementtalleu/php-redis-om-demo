@@ -12,7 +12,6 @@ class BookRepository
 
     public function __construct(RedisObjectManagerInterface $om)
     {
-        // On récupère le repository natif du bundle
         $this->repository = $om->getRepository(Book::class);
     }
 
@@ -34,7 +33,7 @@ class BookRepository
         }
 
         if (!empty($criteria)) {
-            $results = $this->repository->findBy($criteria);
+            $results = $this->repository->findBy($criteria, ['publishedAt' => 'ASC']);
         } else {
             $results = $this->repository->findAll();
         }
@@ -49,6 +48,7 @@ class BookRepository
 
                 return $minOk && $maxOk;
             });
+            $books = array_values($books);
         }
 
         return $books;
