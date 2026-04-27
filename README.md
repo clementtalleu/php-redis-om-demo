@@ -96,6 +96,9 @@ class Book {
 
     #[RedisOm\Property(index:true)]
     public \DateTimeImmutable $publishedAt;
+    
+    #[RedisOm\Property(index: true)] //use of an enum
+    public BookEnum $bookEnum;
 }
 ```
 ### Using the Manager
@@ -112,6 +115,8 @@ public function create(RedisObjectManagerInterface $manager) {
         // Prepare the object for Redis
         $manager->persist($book);
         
+        // if it's an edit of a book
+        $manager->merge($book)
         // Execute the commands (HMSET, JSON.SET, etc. depending on your mapping)
         $manager->flush();
 
@@ -138,6 +143,16 @@ class BookType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
+            //Add Enum in a form
+            ->add('bookEnum', EnumType::class, [
+              'class' => BookEnum::class,
+              'label' => 'Format du livre',
+              'choice_label' => fn (BookEnum $choice) => match($choice){
+                  BookEnum::BOOK =>'Livre Classique',
+                  BookEnum::POCKET => 'Livre Pocket',
+                  BookEnum::REVUE => 'Magazine',
+              },
+            ])
             ->add('publishedAt', DateType::class, [
                 'widget' => 'single_text',
                 'input'  => 'datetime_immutable',
@@ -163,7 +178,33 @@ $books = $repository->findBy(
     ['author' => 'Jack London'], // criteria
     ['publishedAt' => 'DESC'], // order by
     10 // Limit
+    
+// Search with id
+$books = $repository->findMultiple([1862976071218001,1863085144589098,1862976157719200])
 );
+```
+
+### Pagination
+
+```php
+
+//------------------------------------------Exemple-------------------------------------//
+
+$repository = $manager->getRepository(User::class);
+
+$page = $request->query->getInt('page', 1);
+
+ $paginator = $repository->paginate(
+            criteria: [],
+            page: $page,
+            itemsPerPage: 8,
+        );
+        
+ return $this->render('admin/user/user.html.twig', [
+            'paginator' => $paginator,
+            'users' => $paginator->getItems(),
+        ]);
+
 ```
 
 ## 🛣️ Every Route and Their Function
