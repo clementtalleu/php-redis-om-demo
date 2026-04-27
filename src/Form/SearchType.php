@@ -35,12 +35,13 @@ class SearchType extends AbstractType
                 'choice_value' => fn (?Category $cat) => $cat ? $cat->id : '',
                 'choice_label' => fn (Category $cat) => $cat->category,
                 'label' => 'Catégorie',
-                'placeholder' => 'Choisir la catégorie',
+                'placeholder' => ' ',
                 'required' => false,
             ])
             ->add('enum', EnumType::class, [
                 'class' => BookEnum::class,
                 'label' => 'Format du livre',
+                'placeholder' => ' ',
                 'choice_label' => fn (BookEnum $choice) => match($choice){
                     BookEnum::BOOK =>'Livre Classique',
                     BookEnum::POCKET => 'Livre Pocket',
