@@ -209,7 +209,7 @@ $page = $request->query->getInt('page', 1);
 
 ## 🛣️ Every Route and Their Function
 
-**User** :
+### **User** :
 
 *User*
 - **https://localhost/user/new** : Create a new user
@@ -219,7 +219,7 @@ $page = $request->query->getInt('page', 1);
   - **https://localhost/books/{id}**: Show the book with this id, you can comment on this page
 
 
-**Admin** :
+### **Admin** :
 
 *Category*  
 - **https://localhost/category** : List of all created category, you can delete them or show all the book with this category
