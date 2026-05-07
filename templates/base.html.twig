@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Bibliothèque</title>
+    <link rel="shortcut icon" href="/public/icon.jpeg?v=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+
+<nav class="bg-indigo-600 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center space-x-8">
+                <a href="#" class="flex items-center py-4 px-2 font-bold text-xl tracking-tight">
+                    <span class="text-indigo-200">Redis</span>OM_Lib
+                </a>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="/books" class="py-4 px-2 hover:text-indigo-200 transition duration-300">Catalogue</a>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-4">
+                <span class="text-indigo-300 text-xs uppercase font-bold mr-2">Administration :</span>
+                <a href="/dashboard" class="py-2 px-3 bg-indigo-700 rounded hover:bg-indigo-800 transition">Dashboard</a>
+                <a href="/admin/books" class="py-2 px-3 hover:text-indigo-200">Livres</a>
+                <a href="/user" class="py-2 px-3 hover:text-indigo-200">Users</a>
+                <a href="/comment" class="py-2 px-3 hover:text-indigo-200">Commentaires</a>
+                <a href="/category" class="py-2 px-3 hover:text-indigo-200">Catégories</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="mb-6 p-4 rounded-md shadow-sm {% if label == 'success' %}bg-green-100 text-green-800 border-l-4 border-green-500{% else %}bg-blue-100 text-blue-800 border-l-4 border-blue-500{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block body %}{% endblock %}
+</main>
+
+<footer class="bg-white border-t border-gray-200 py-6 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+        &copy; {{ "now"|date("Y") }} - RedisOM Symfony Demo (Talleu Library)
+    </div>
+</footer>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

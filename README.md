@@ -2,91 +2,246 @@
 
 Projet de démonstration pour la librairie [php-redis-om](https://github.com/clementtalleu/php-redis-om), un Object Mapper Redis pour PHP.
 
-## Stack technique
+## ✨ Demo Features
+
+- **Full CRUD** : Management of Books, Users, and Categories
+- **Advanced Search** : Filters and sort data
+- **Nesting & Relations** : Handing complew object and relations via RedisJSON
+- **Admin Interface** : Complete back-office under /adùin using Symfony Forms
+- **Developer Experience** : Seamless integratrion with the RedisObjectManager
+
+## 🛠️ Stack technique
 
 - **PHP 8.4** (FrankenPHP)
 - **Symfony 7.4**
 - **Redis Stack** (Redis + RediSearch + RedisJSON)
 - **php-redis-om** (talleu/php-redis-om)
 
-## Installation
+## 📝 Installation & Setup
+
+### 1. Clone the repository
+
+#### Fork the repository 🍴
+
+To use the demo, you first have to fork the repository to clone it.
+![](/public/fork.png)
+
+Once you created the fork, depending on preferences, you can clone it by using HTTPS or SSH methods by clicking first on the green button named code
+
+![](/public/clone.png)
+
+You have to copy it, then in your terminal, go to the directory where you want the demo to be and clone it
+
+```bash
+git clone [paste your https or ssh here]
+```
+
+### 2. Spin up the infrastructure
+
+The demo uses docker to streamline the PHP and Redis Stack installation, so you need to install it beforehand
 
 ```bash
 docker compose up -d --build
 ```
 
-- App : https://localhost (certificat auto-signé)
+### 2. Access the services
+
+- Web-App : https://localhost (certificat auto-signé)
 - RedisInsight : http://localhost:8001
 
-## TODO
+To access the demo : 
 
-### Setup initial
+- Demo : https://localhost/books
 
-- [ ] Installer `talleu/php-redis-om` via Composer
-- [ ] Installer Twig (`symfony/twig-bundle`)
-- [ ] Installer le formulaire Symfony (`symfony/form`, `symfony/validator`)
-- [ ] Enregistrer le bundle dans `config/bundles.php` : `Talleu\RedisOm\Bundle\TalleuRedisOmBundle::class => ['all' => true]`
-- [ ] Configurer la connexion Redis (env `REDIS_URL`)
+### 3. Library Initialization
 
-### Entités Redis
+If you are starting fresh or updating the library : 
 
-- [ ] Créer une entité `Book` (id, title, author (qui est un User), enabled, category, description, publishedAt, price)
-- [ ] Créer une entité `Category` (id, title)
-- [ ] Créer une entité `User` (id, name, email, age, createdAt)
-- [ ] Créer une entité `Comment` (id, author, book, content, createdAt)
-- [ ] Vérifier le mapping avec les attributs `#[RedisOm\Entity]`, `#[RedisOm\Id]`, `#[RedisOm\Property]`
-- [ ] Indexer les champs pertinents pour la recherche (`index: true`)
-- [ ] Lancer la migration : `bin/console redis-om:migrate`
+```bash
+#If you are outside of the container
 
-### Formulaires & Controllers
+# Install the development version
+docker compose exec php composer require talleu/php-redis-om:dev-main
 
-- [ ] Créer un `BookController` avec CRUD complet (list, create, show, edit, delete)
-- [ ] Créer un `UserController` avec CRUD complet
-- [ ] Créer un `CategoryController` avec CRUD complet
-- [ ] Créer les `FormType` associés (BookType, UserType, CategoryType)
-- [ ] Toute la partie CRUD préfixée par /admin
-- [ ] Créer une page "vue des ouvrages" qui affiche les livres activés
-- [ ] Créer des filters
-- [ ] Faire la page "détail d'un ouvrage"
-- [ ] Affcher les commentaires
-- [ ] Permettre de poster un nouveau commentaire
-- [ ] Gérer la validation des formulaires
+# Generate Redis indexes (Migration)
+docker compose exec php bin/console redis-om:migrate
 
-### Templates & UI
+#----------------------------------------------------#
 
-- [ ] Créer un layout de base (`base.html.twig`) avec navigation
-- [ ] Templates de listing pour chaque entité
-- [ ] Templates de formulaire (create/edit)
-- [ ] Template de détail (show)
-- [ ] Messages flash pour les actions (create, update, delete)
+# If you are inside of the container
 
-### Fonctionnalités de recherche
+# Install the development version
+composer require talleu/php-redis-om:dev-main
 
-- [ ] Implémenter `findAll()` pour chaque entité
-- [ ] Implémenter `findBy()` avec critères de recherche
-- [ ] Implémenter `findOneBy()` 
-- [ ] Ajouter un formulaire de recherche/filtre sur les listings
-- [ ] Tester le tri (`orderBy`) sur les collections
+# Generate Redis indexes (Migration)
+bin/console redis-om:migrate
+```
+Depending on your configuration, use phpredis or Predis
 
-### Fonctionnalités avancées
+## 🎯 How to Use the Demo 
 
-- [ ] Tester le support RedisJSON (stocker des objets imbriqués)
-- [ ] Tester l'auto-expiration (TTL sur les entités)
-- [ ] Tester les types avancés (DateTimeImmutable, arrays, nested objects)
-- [ ] Créer une page dashboard avec des stats (nombre d'objets par entité)
+### Entity Mapping
+Entities are located in src/Entity
 
-### Tests & Validation
+```php
+//------------------------------------------Exemple-------------------------------------//
+#[RedisOm\Entity] // To declare an entity
+class Book {
+    #[RedisOm\Id] // Id is automatically created
+    #[RedisOm\Property]
+    public int $id;
 
-- [ ] Vérifier que les objets sont bien persistés dans Redis
-- [ ] Vérifier la recherche par critères
-- [ ] Vérifier le tri et la pagination
-- [ ] Vérifier la suppression
-- [ ] Vérifier via RedisInsight que les données sont correctes
+    #[RedisOm\Property(index: true)] // Enables searching/filtering on this field
+    public string $title;
 
-### Préparation V1
+    #[RedisOm\Property(index:true)]
+    public \DateTimeImmutable $publishedAt;
+    
+    #[RedisOm\Property(index: true)] //use of an enum
+    public BookEnum $bookEnum;
+}
+```
+### Using the Manager
 
-- [ ] Documenter les fonctionnalités testées et leur statut
-- [ ] Identifier les éventuels bugs ou limitations
-- [ ] Mettre à jour `php-redis-om` vers la V1 quand disponible
-- [ ] Relancer les tests pour vérifier la rétrocompatibilité
-- [ ] Documenter les breaking changes éventuels
+In your controllers (src/Controller), the RedisObjectManagerInterface is injected to handle data via forms
+
+```php
+//------------------------------------------Exemple-------------------------------------//
+public function create(RedisObjectManagerInterface $manager) {
+    $book = new Book();
+    $form = $this->createForm(BookType::class, $book);
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Prepare the object for Redis
+        $manager->persist($book);
+        
+        // if it's an edit of a book
+        $manager->merge($book)
+        // Execute the commands (HMSET, JSON.SET, etc. depending on your mapping)
+        $manager->flush();
+
+        $this->addFlash('success', 'Book saved to Redis!');
+        return $this->redirectToRoute('app_book_index');
+    }
+
+    return $this->render('admin/book/new.html.twig', [
+        'form' => $form,
+    ]);
+}
+```
+### Form Type
+
+The library supports standard Symfony Form Types. Because the entities use standard PHP properties, no special configuration is required for the FormType.  
+They are used to create object in Redis.
+
+```php
+//------------------------------------------Exemple-------------------------------------//
+class BookType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('title', TextType::class)
+            ->add('description', TextareaType::class)
+            //Add Enum in a form
+            ->add('bookEnum', EnumType::class, [
+              'class' => BookEnum::class,
+              'label' => 'Format du livre',
+              'choice_label' => fn (BookEnum $choice) => match($choice){
+                  BookEnum::BOOK =>'Livre Classique',
+                  BookEnum::POCKET => 'Livre Pocket',
+                  BookEnum::REVUE => 'Magazine',
+              },
+            ])
+            ->add('publishedAt', DateType::class, [
+                'widget' => 'single_text',
+                'input'  => 'datetime_immutable',
+            ])
+            ->add('price', NumberType::class);
+    }
+}
+```
+
+### Retrieval and Filtering
+
+Use the Repository to fetch your data : 
+
+```php
+//------------------------------------------Exemple-------------------------------------//
+$repository = $manager->getRepository(Book::class);
+
+// Get everything
+$books = $repository->findAll();
+
+// Search with criteria and sorting
+$books = $repository->findBy(
+    ['author' => 'Jack London'], // criteria
+    ['publishedAt' => 'DESC'], // order by
+    10 // Limit
+    
+// Search with id
+$books = $repository->findMultiple([1862976071218001,1863085144589098,1862976157719200])
+);
+```
+
+### Pagination
+
+```php
+
+//------------------------------------------Exemple-------------------------------------//
+
+$repository = $manager->getRepository(User::class);
+
+$page = $request->query->getInt('page', 1);
+
+ $paginator = $repository->paginate(
+            criteria: [],
+            page: $page,
+            itemsPerPage: 8,
+        );
+        
+ return $this->render('admin/user/user.html.twig', [
+            'paginator' => $paginator,
+            'users' => $paginator->getItems(),
+        ]);
+
+```
+
+## 🛣️ Every Route and Their Function
+
+### **User** :
+
+*User*
+- **https://localhost/user/new** : Create a new user
+
+*Book*
+- **https://localhost/books** : List of Book enabled
+  - **https://localhost/books/{id}**: Show the book with this id, you can comment on this page
+
+
+### **Admin** :
+
+*Category*  
+- **https://localhost/category** : List of all created category, you can delete them or show all the book with this category
+  - **https://localhost/category/{id}** : List of books which has this category
+  - **https://localhost/category/new** : Create a new category
+
+*Book*
+- **https://localhost/admin/books** : List of all the books, enabled or not
+  - **https://localhost/admin/books/new** : Create a book
+  - **https://localhost/books/edit/{id}** : Edit a book with this specific id, you can delete them if they are disabled
+
+*User*
+- **https://localhost/user** : List of all created user, you can delete and edit them
+  - **https://localhost/user/edit/{id}** : Edit a user with this specific id
+- **https://localhost/justine** : Use of findOneBy on a user withe the name Justine, and usage of findMultiple with user id (if you want to test it you have to change the id)
+
+*Comment*
+
+- **https://localhost/comment** :  List of all created comment, you can delete or edit them
+  - **https://localhost/comment/edit/{id}** : Edit a comment with this specific id
+
+*Dashboard*
+
+- **https://localhost/dashboard** : Show how many data of each entity we have
+

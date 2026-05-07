@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue des livres{% endblock %}
+
+{% block body %}
+    <div class="mb-8 flex justify-between items-center">
+        <h1 class="text-3xl font-extrabold text-gray-900">Notre Catalogue</h1>
+        {% if app.request.attributes.get('_route') == 'admin_index_books' %}
+            <a href="/admin/books/new" class="py-2 px-3 bg-indigo-200 rounded hover:bg-indigo-400 transition">Ajouter un Livre</a>
+        {% endif %}
+        <span class="bg-indigo-100 text-indigo-700 px-4 py-1 rounded-full text-sm font-medium">
+            {% if app.request.attributes.get('_route') != 'admin_index_books' %}
+            {{ books|filter(b => b.enabled == true)|length }} ouvrages disponibles
+            {% else %}
+            {{ books|filter(b => b.enabled == true)|length }} ouvrages disponibles <br>
+            {{ books|filter(b => b.enabled == false)|length }} ouvrages indisponibles
+            {% endif %}
+        </span>
+    </div>
+    {{ include('main/filtre.html.twig') }}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {% if app.request.attributes.get('_route') != 'admin_index_books' %}
+            {% for book in bookpage %}
+                {% if book.enabled == true %}
+                    {{ include('main/showcata.html.twig') }}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+
+            {% for book in bookpage %}
+                {{ include('main/showcata.html.twig') }}
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% if totalPages > 1 %}
+        <div class="flex justify-center items-center space-x-2 mt-8">
+            {% if currentPage > 1 %}
+                <a href="{{ path(currentRoute,app.request.query.all|merge({page: currentPage - 1})) }}"
+                   class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+                    Précédent
+                </a>
+            {% endif %}
+            <div class="flex items-center space-x-1">
+                {% for i in 1..totalPages %}
+                    <a href="{{ path(currentRoute,app.request.query.all|merge({ page: i})) }}"
+                       class="px-4 py-2 rounded-lg text-sm font-medium transition {{ i == currentPage ? 'bg-indigo-600 text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50' }}">
+                        {{ i }}
+                    </a>
+                {% endfor %}
+            </div>
+            {% if currentPage < totalPages %}
+                <a href="{{ path(currentRoute,app.request.query.all|merge({ page: currentPage + 1})) }}"
+                   class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+                    Suivant
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}
